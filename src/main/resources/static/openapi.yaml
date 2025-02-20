@@ -1,0 +1,90 @@
+openapi: 3.1.1
+info:
+  title: Inditex Prices API
+  version: "1.0"
+  description: API to retrieve current price of products
+paths:
+  /api/v1/prices/product/{productId}/brand/{brandId}:
+    get:
+      tags:
+        - PricesV1
+      summary: Get price by product, brand and datetime
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: brandId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: applyDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Price found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Price not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDto'
+components:
+  schemas:
+    PriceResponseDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        brandId:
+          type: integer
+          format: int64
+        priceList:
+          type: integer
+        startDateTime:
+          type: string
+          format: date-time
+          x-java-type: java.time.LocalDateTime
+        endDateTime:
+          type: string
+          format: date-time
+          x-java-type: java.time.LocalDateTime
+        price:
+          type: number
+          x-java-type: java.math.BigDecimal
+      required:
+        - productId
+        - brandId
+        - priceList
+        - startDateTime
+        - endDateTime
+        - price
+    ErrorResponseDto:
+      type: object
+      properties:
+        key:
+          type: string
+        message:
+          type: string
+        dateTime:
+          type: string
+          format: date-time
+          x-java-type: java.time.LocalDateTime
+      required:
+        - key
+        - message
+        - dateTime
+

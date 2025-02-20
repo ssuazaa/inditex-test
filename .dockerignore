@@ -1,0 +1,11 @@
+.git
+.gradle
+.idea/
+build/
+gradle/
+.gitattributes
+.gitignore
+Dockerfile
+gradlew*
+README.md
+testdb*
