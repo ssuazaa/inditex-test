@@ -37,7 +37,7 @@ class RestPriceControllerTest {
 
   @ParameterizedTest(name = "Iteration: {1} - {0}")
   @MethodSource("filterDatesAndIterations")
-  void shouldReturnUserResponseDtoWithNonEmptyActiveCampaigns_whenPriceFound(
+  void shouldReturnPriceResponseDto_whenPriceFound(
       LocalDateTime filterDate, Integer iteration) {
     // Arrange
     var productId = 35455L;
