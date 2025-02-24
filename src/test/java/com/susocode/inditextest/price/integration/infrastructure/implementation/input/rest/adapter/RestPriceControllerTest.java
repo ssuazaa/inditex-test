@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.susocode.inditextest.model.PriceResponseDto;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -64,6 +65,36 @@ class RestPriceControllerTest {
               iteration, filterDate.getHour(), filterDate.getMinute(), filterDate.getDayOfMonth(),
               productId, brandId);
         });
+  }
+
+  @Test
+  void shouldReturnNotFound_whenProductDoesNotExist() {
+    var nonExistentProductId = 99999L;
+    var brandId = 1L;
+    var filterDate = LocalDateTime.parse("2025-06-14T10:00:00");
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path("/api/v1/prices/product/{productId}/brand/{brandId}")
+            .queryParam("applyDate", filterDate)
+            .build(nonExistentProductId, brandId))
+        .exchange()
+        .expectStatus().isNotFound();
+  }
+
+  @Test
+  void shouldReturnBadRequest_whenInvalidDateFormat() {
+    var productId = 35455L;
+    var brandId = 1L;
+    var invalidDate = "invalid-date-format";
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder
+            .path("/api/v1/prices/product/{productId}/brand/{brandId}")
+            .queryParam("applyDate", invalidDate)
+            .build(productId, brandId))
+        .exchange()
+        .expectStatus().isBadRequest();
   }
 
 }

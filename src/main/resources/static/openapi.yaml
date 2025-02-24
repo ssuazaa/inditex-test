@@ -1,4 +1,4 @@
-openapi: 3.1.1
+openapi: 3.0.0
 info:
   title: Inditex Prices API
   version: "1.0"
@@ -6,9 +6,11 @@ info:
 paths:
   /api/v1/prices/product/{productId}/brand/{brandId}:
     get:
+      operationId: getPriceByProductAndBrand
+      summary: Get price for a given product and brand
+      description: Retrieves the applicable price for a product under a brand.
       tags:
         - PricesV1
-      summary: Get price by product, brand and datetime
       parameters:
         - name: productId
           in: path
@@ -24,7 +26,7 @@ paths:
             format: int64
         - name: applyDate
           in: query
-          required: false
+          required: true
           schema:
             type: string
             format: date-time

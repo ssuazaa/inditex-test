@@ -69,7 +69,7 @@ class RestPriceControllerTest {
         .thenReturn(priceResponseDto);
 
     // Act
-    var response = restPriceController.apiV1PricesProductProductIdBrandBrandIdGet(productId,
+    var response = restPriceController.getPriceByProductAndBrand(productId,
         brandId, filterDate, null);
 
     // Assert
@@ -101,7 +101,7 @@ class RestPriceControllerTest {
             new ObjectNotFoundException("PRICE_BY_PRODUCT_ID_OR_BRAND_ID_NOT_FOUND", "")));
 
     // Act
-    var response = restPriceController.apiV1PricesProductProductIdBrandBrandIdGet(productId,
+    var response = restPriceController.getPriceByProductAndBrand(productId,
         brandId, filterDate, null);
 
     // Assert
